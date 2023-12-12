@@ -1,3 +1,5 @@
+import { Request, Response, NextFunction } from "express";
+import { CustomError } from "./helpers/HttpError";
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
@@ -19,11 +21,11 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/contacts", contactsRouter);
 
-app.use((req, res) => {
+app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Not found" });
 });
 
-app.use((err, req, res, next) => {
+app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
   res.status(err.status || 500).json({ message: err.message });
 });
 
